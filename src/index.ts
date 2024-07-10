@@ -1,12 +1,7 @@
 // modules
 import fs from 'node:fs';
 import path from 'node:path';
-import {
-    Client,
-    Collection,
-    GatewayIntentBits,
-    Events,
-} from 'discord.js';
+import { Client, Collection, GatewayIntentBits, Events } from 'discord.js';
 import config from './config';
 import { Module } from './types';
 import yargs from 'yargs';
@@ -27,14 +22,7 @@ type CustomClient = Client & {
 };
 
 // create client
-const client: CustomClient = new Client({
-    intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent,
-        GatewayIntentBits.GuildMembers,
-    ],
-}) as CustomClient;
+const client: CustomClient = new Client({ intents: [] }) as CustomClient;
 
 // onready
 client.on('ready', async () => {
