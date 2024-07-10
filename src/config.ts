@@ -1,4 +1,7 @@
 export default {
+    // testing guild id
+    testingGuildId: '',
+
     // credentials
     bots: {
         production: {

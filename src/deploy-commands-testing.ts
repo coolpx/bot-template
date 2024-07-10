@@ -46,7 +46,7 @@ for (const folder of commandFolders) {
                 .put(
                     Routes.applicationGuildCommands(
                         config.bots[botId].userId,
-                        config.guildId
+                        config.testingGuildId
                     ),
                     {
                         body: commands,
