@@ -1,0 +1,24 @@
+{
+    "name": "bot-template",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js"
+    },
+    "keywords": [
+        "discord",
+        "bot"
+    ],
+    "author": "coolpixels",
+    "license": "CC-BY-SA-4.0",
+    "dependencies": {
+        "@types/yargs": "^17.0.32",
+        "discord.js": "^14.11.0",
+        "fs": "^0.0.1-security",
+        "path": "^0.12.7",
+        "typescript": "^5.4.5",
+        "yargs": "^17.7.2"
+    }
+}
