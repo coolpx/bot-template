@@ -4,21 +4,24 @@
 set -e
 
 # Configuration
-NVM_DIR="/root/.nvm/versions/node/v21.7.3/bin"
-PM2="$NVM_DIR/npx pm2"
-NODE="$NVM_DIR/node"
-NPM="$NVM_DIR/npm"
-PROJECT_DIR="/root/dnk-bot"  # coolpixels set this to the correct one
+PROJECT_NAME=""
+NVM_DIR="$HOME/.nvm/versions/node"
+LATEST_NODE_VERSION=$(ls -v $NVM_DIR | tail -n 1)
+NODE_BIN_DIR="$NVM_DIR/$LATEST_NODE_VERSION/bin"
+PM2="$NODE_BIN_DIR/npx pm2"
+NODE="$NVMNODE_BIN_DIR_DIR/node"
+NPM="$NODE_BIN_DIR/npm"
+PROJECT_DIR="$HOME/$PROJECT_NAME"
 
 # Add Node.js to the PATH
-export PATH=$NVM_DIR:$PATH
+export PATH=$NODE_BIN_DIR:$PATH
 
 # Change to the project directory
 cd $PROJECT_DIR
 
 # Stop the existing run
 echo "Stopping the existing run"
-$PM2 delete all || echo "No running processes to stop"
+$PM2 delete $PROJECT_NAME || echo "No running processes to stop"
 
 # Remove the existing build
 echo "Removing the existing build"
@@ -38,6 +41,6 @@ $NPM run build || { echo "Build failed"; exit 1; }
 
 # Start the new code
 echo "Running"
-$PM2 start dist/index.js || { echo "Failed to start application"; exit 1; }
+$PM2 start dist/index.js --name $PROJECT_NAME || { echo "Failed to start application"; exit 1; }
 
 echo "Deployment completed successfully"
