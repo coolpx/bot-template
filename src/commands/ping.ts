@@ -4,7 +4,7 @@ const command: Command = {
     data: new SlashCommandBuilder()
         .setName('ping')
         .setDescription('returns pong'),
-    async execute(interaction: CommandInteraction) {
+    async execute(interaction) {
         await interaction.reply('pong');
     }
 };

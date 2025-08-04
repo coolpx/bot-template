@@ -1,9 +1,9 @@
-import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 
 declare global {
     type Command = {
         data: Optional<SlashCommandBuilder>;
-        execute: (interaction: CommandInteraction) => Promise<void>;
+        execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
     };
 
     type Module = {
