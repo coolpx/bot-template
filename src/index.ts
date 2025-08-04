@@ -87,16 +87,12 @@ client.on('ready', async () => {
             console.error(chalk.redBright(error));
             if (interaction.replied || interaction.deferred) {
                 await interaction.followUp({
-                    content: chalk.red(
-                        'There was an error while executing this command!'
-                    ),
+                    content: 'There was an error while executing this command!',
                     ephemeral: true
                 });
             } else {
                 await interaction.reply({
-                    content: chalk.red(
-                        'There was an error while executing this command!'
-                    ),
+                    content: 'There was an error while executing this command!',
                     ephemeral: true
                 });
             }
