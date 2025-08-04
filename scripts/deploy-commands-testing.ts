@@ -7,29 +7,24 @@ import path from 'node:path';
 const commands: unknown[] = [];
 // Grab all the command files from the commands directory you created earlier
 // eslint-disable-next-line no-undef
-const foldersPath = path.join(process.cwd(), 'dist', 'commands');
-const commandFolders = fs.readdirSync(foldersPath);
+const commandsPath = path.join(process.cwd(), 'dist', 'commands');
 
-for (const folder of commandFolders) {
-    if (!fs.lstatSync(path.join(foldersPath, folder)).isDirectory()) {
-        continue;
-    }
-    // Grab all the command files from the commands directory you created earlier
-    const commandsPath = path.join(foldersPath, folder);
-    const commandFiles = fs
-        .readdirSync(commandsPath)
-        .filter((file: string) => file.endsWith('.js'));
-    // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
-    for (const file of commandFiles) {
-        const filePath = path.join(commandsPath, file);
-        const command = require(filePath);
-        if ('data' in command && 'execute' in command) {
-            commands.push(command.data.toJSON());
-        } else {
-            console.log(
-                `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
-            );
-        }
+// Grab all the command files from the commands directory you created earlier
+const commandFiles = fs
+    .readdirSync(commandsPath, { recursive: true })
+    .map((file) => file.toString())
+    .filter((file: string) => file.endsWith('.js'));
+
+// Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
+for (const file of commandFiles) {
+    const filePath = path.join(commandsPath, file);
+    const command = require(filePath).default;
+    if ('data' in command && 'execute' in command) {1
+        commands.push(command.data.toJSON());
+    } else {
+        console.log(
+            `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
+        );
     }
 }
 
