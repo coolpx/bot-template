@@ -7,7 +7,7 @@ import path from 'node:path';
 const commands: unknown[] = [];
 // Grab all the command files from the commands directory you created earlier
 // eslint-disable-next-line no-undef
-const foldersPath = path.join(__dirname, 'commands');
+const foldersPath = path.join(process.cwd(), 'dist', 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
