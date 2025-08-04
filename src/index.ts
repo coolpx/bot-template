@@ -1,9 +1,8 @@
 // modules
-import fs from 'node:fs';
-import path from 'node:path';
-import { Client, Collection, GatewayIntentBits, Events } from 'discord.js';
+import fs from 'fs';
+import path from 'path';
+import { Client, GatewayIntentBits, Events } from 'discord.js';
 import config from './config';
-import { Module } from './types';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
@@ -16,55 +15,48 @@ const args = yargs(hideBin(process.argv)).option('bot', {
 
 console.log(`running on ${args.bot}`);
 
-// types
-type CustomClient = Client & {
-    commands: Collection<string, any> | undefined;
-};
+// variables
+const commands: { [name: string]: Command } = {};
 
 // create client
-const client: CustomClient = new Client({ intents: [] }) as CustomClient;
+const client = new Client({
+    intents: [
+        // IMPORTANT: Add bot intents here
+        // Example: GatewayIntentBits.GuildMembers
+    ],
+});
 
 // onready
 client.on('ready', async () => {
     // activate modules
     console.log('== ACTIVATING MODULES ==');
 
-    for (const module of fs.readdirSync(path.join(__dirname, 'modules'))) {
-        const data: Module = require(path.join(
-            __dirname,
-            'modules',
-            module
-        )).default;
-
-        console.log(`activating ${data.name} module`);
-        data.run(client);
+    const modulesPath = path.join(__dirname, 'modules');
+    for (const entry of fs.readdirSync(modulesPath, { recursive: true })) {
+        const moduleFile = typeof entry === 'string' ? entry : entry.toString();
+        const fullPath = path.join(modulesPath, moduleFile);
+        if (moduleFile.endsWith('.js') && fs.lstatSync(fullPath).isFile()) {
+            const data: Module = require(fullPath).default;
+            console.log(`activating ${data.name} module`);
+            data.run(client);
+        }
     }
 
     // Process commands
-    client.commands = new Collection();
-    const foldersPath = path.join(__dirname, 'commands');
-    const commandFolders = fs.readdirSync(foldersPath);
-
+    const commandsPath = path.join(__dirname, 'commands');
     console.log('== ACTIVATING COMMANDS ==');
-    for (const folder of commandFolders) {
-        if (!fs.lstatSync(path.join(foldersPath, folder)).isDirectory()) {
-            continue;
-        }
-
-        const commandsPath = path.join(foldersPath, folder);
-        const commandFiles = fs
-            .readdirSync(commandsPath)
-            .filter((file) => file.endsWith('.js'));
-        for (const file of commandFiles) {
-            console.log('activating ' + folder + '/' + file);
-            const filePath = path.join(commandsPath, file);
-            const command = require(filePath);
+    for (const entry of fs.readdirSync(commandsPath, { recursive: true })) {
+        const commandFile = typeof entry === 'string' ? entry : entry.toString();
+        const fullPath = path.join(commandsPath, commandFile);
+        if (commandFile.endsWith('.js') && fs.lstatSync(fullPath).isFile()) {
+            console.log('activating ' + commandFile);
+            const command = require(fullPath);
             // Set a new item in the Collection with the key as the command name and the value as the exported module
             if ('data' in command && 'execute' in command) {
-                client.commands.set(command.data.name, command);
+                commands[command.data.name] = command;
             } else {
                 console.log(
-                    `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
+                    `[WARNING] The command at ${fullPath} is missing a required "data" or "execute" property.`
                 );
             }
         }
@@ -74,7 +66,7 @@ client.on('ready', async () => {
     client.on(Events.InteractionCreate, async (interaction) => {
         if (!interaction.isChatInputCommand()) return;
 
-        const command = client.commands?.get(interaction.commandName);
+        const command = commands[interaction.commandName];
 
         if (!command) {
             console.error(

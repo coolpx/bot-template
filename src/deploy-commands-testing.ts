@@ -45,7 +45,7 @@ for (const folder of commandFolders) {
                 .setToken(config.bots[botId].token)
                 .put(
                     Routes.applicationGuildCommands(
-                        config.bots[botId].userId,
+                        config.bots[botId].clientId,
                         config.testingGuildId
                     ),
                     {

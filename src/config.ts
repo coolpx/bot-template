@@ -5,8 +5,8 @@ export default {
     // credentials
     bots: {
         production: {
-            token: '',
-            userId: '',
+            token: 'your-bot-token',
+            clientId: 'your-client-id',
         },
-    } as { [key: string]: { token: string; userId: string } },
+    } as { [key: string]: { token: string; clientId: string } },
 };

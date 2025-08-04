@@ -1,5 +1,4 @@
 import { Client } from 'discord.js';
-import { Module } from '../types';
 
 const data: Module = {
     name: 'example module',

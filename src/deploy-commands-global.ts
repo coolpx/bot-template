@@ -43,7 +43,7 @@ for (const folder of commandFolders) {
         for (const botId of Object.keys(config.bots)) {
             await new REST()
                 .setToken(config.bots[botId].token)
-                .put(Routes.applicationCommands(config.bots[botId].userId), {
+                .put(Routes.applicationCommands(config.bots[botId].clientId), {
                     body: commands,
                 });
 
