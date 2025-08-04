@@ -52,7 +52,7 @@ client.on('ready', async () => {
         const fullPath = path.join(commandsPath, commandFile);
         if (commandFile.endsWith('.js') && fs.lstatSync(fullPath).isFile()) {
             console.log(chalk.greenBright('Activating ' + commandFile));
-            const command = require(fullPath);
+            const command = require(fullPath).default as Command;
             // Set a new item in the Collection with the key as the command name and the value as the exported module
             if ('data' in command && 'execute' in command) {
                 commands[command.data.name] = command;
