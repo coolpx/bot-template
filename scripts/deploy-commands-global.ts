@@ -1,9 +1,9 @@
 import { REST, Routes } from 'discord.js';
-import config from './config';
+import credentials from '../credentials';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const commands = [];
+const commands: unknown[] = [];
 // Grab all the command files from the commands directory you created earlier
 // eslint-disable-next-line no-undef
 const foldersPath = path.join(__dirname, 'commands');
@@ -40,10 +40,10 @@ for (const folder of commandFolders) {
         );
 
         // The put method is used to fully refresh all commands in the guild with the current set
-        for (const botId of Object.keys(config.bots)) {
+        for (const botId of Object.keys(credentials)) {
             await new REST()
-                .setToken(config.bots[botId].token)
-                .put(Routes.applicationCommands(config.bots[botId].clientId), {
+                .setToken(credentials[botId].token)
+                .put(Routes.applicationCommands(credentials[botId].clientId), {
                     body: commands
                 });
 

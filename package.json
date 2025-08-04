@@ -6,7 +6,10 @@
     "scripts": {
         "build": "tsc",
         "watch": "tsc --watch",
-        "start": "node dist/index.js"
+        "start": "node dist/index.js",
+        "deploy-commands-global": "ts-node scripts/deploy-commands-global.ts",
+        "deploy-commands-testing": "ts-node scripts/deploy-commands-testing.ts",
+        "delete-testing-commands": "ts-node scripts/delete-testing-commands.ts"
     },
     "keywords": [
         "discord",
@@ -16,9 +19,11 @@
     "license": "CC-BY-SA-4.0",
     "dependencies": {
         "@types/yargs": "^17.0.32",
+        "chalk": "^5.5.0",
         "discord.js": "^14.11.0",
         "fs": "^0.0.1-security",
         "path": "^0.12.7",
+        "ts-node": "^10.9.2",
         "typescript": "^5.4.5",
         "yargs": "^17.7.2"
     }
