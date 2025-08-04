@@ -2,7 +2,7 @@
 
 ## Continous Deployment
 
-`.github/workflows/deploy.yml` automatically connects to the production server configured in repository secrets via SSH and runs `deploy.sh`. If your target server is set up for this, configure the secrets `SSH_PRIVATE_KEY`, `SSH_HOST`, and `SSH_USER` in your repository settings. You should absolutely read `deploy.sh` to make sure it works the way you want it to, and modify it if not.
+`.github_example/workflows/deploy.yml` automatically connects to the production server configured in repository secrets via SSH and runs `deploy.sh`. If your target server is set up for this, configure the secrets `SSH_PRIVATE_KEY`, `SSH_HOST`, and `SSH_USER` in your repository settings and rename `.github_example` to `.github`. You should absolutely read `deploy.sh` to make sure it works the way you want it to, and modify it if not.
 
 ## Usage
 
