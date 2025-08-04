@@ -6,7 +6,7 @@ export default {
     bots: {
         production: {
             token: 'your-bot-token',
-            clientId: 'your-client-id',
-        },
-    } as { [key: string]: { token: string; clientId: string } },
+            clientId: 'your-client-id'
+        }
+    } as { [key: string]: { token: string; clientId: string } }
 };

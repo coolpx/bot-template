@@ -10,7 +10,7 @@ import { hideBin } from 'yargs/helpers';
 const args = yargs(hideBin(process.argv)).option('bot', {
     type: 'string',
     description: 'The set of Discord bot credentials to use',
-    default: 'production',
+    default: 'production'
 }).argv as { bot: string };
 
 console.log(`running on ${args.bot}`);
@@ -23,7 +23,7 @@ const client = new Client({
     intents: [
         // IMPORTANT: Add bot intents here
         // Example: GatewayIntentBits.GuildMembers
-    ],
+    ]
 });
 
 // onready
@@ -46,7 +46,8 @@ client.on('ready', async () => {
     const commandsPath = path.join(__dirname, 'commands');
     console.log('== ACTIVATING COMMANDS ==');
     for (const entry of fs.readdirSync(commandsPath, { recursive: true })) {
-        const commandFile = typeof entry === 'string' ? entry : entry.toString();
+        const commandFile =
+            typeof entry === 'string' ? entry : entry.toString();
         const fullPath = path.join(commandsPath, commandFile);
         if (commandFile.endsWith('.js') && fs.lstatSync(fullPath).isFile()) {
             console.log('activating ' + commandFile);
@@ -82,12 +83,12 @@ client.on('ready', async () => {
             if (interaction.replied || interaction.deferred) {
                 await interaction.followUp({
                     content: 'There was an error while executing this command!',
-                    ephemeral: true,
+                    ephemeral: true
                 });
             } else {
                 await interaction.reply({
                     content: 'There was an error while executing this command!',
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
         }

@@ -49,7 +49,7 @@ for (const folder of commandFolders) {
                         config.testingGuildId
                     ),
                     {
-                        body: commands,
+                        body: commands
                     }
                 );
 
