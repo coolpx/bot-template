@@ -2,7 +2,7 @@ import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
 
 declare global {
     type Command = {
-        data: SlashCommandBuilder;
+        data: Optional<SlashCommandBuilder>;
         execute: (interaction: CommandInteraction) => Promise<void>;
     };
 
